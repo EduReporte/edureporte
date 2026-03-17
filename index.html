@@ -236,8 +236,7 @@ nav {
   gap:24px; max-width:960px; margin:0 auto;
 }
 .role-card {
-  border-radius:22px; padding:36px;
-  color:white;
+  border-radius:22px; padding:36px; color:white;
 }
 .role-card.docente { background:linear-gradient(135deg, var(--verde-oscuro), #2a5c52); }
 .role-card.padre { background:linear-gradient(135deg, #1a365d, #2c5282); }
@@ -377,35 +376,34 @@ footer {
   .hero { padding:90px 20px 50px; }
   .hero-content {
     grid-template-columns:1fr;
-    gap:40px; text-align:center;
+    gap:0; text-align:center;
   }
   .hero h1 { font-size:34px; }
   .hero p { font-size:15px; }
   .hero-btns { justify-content:center; }
   .hero-stats { justify-content:center; }
-  .hero-mockup { display:none; }
+
+  /* ✅ Mockup visible en móvil centrado */
+  .hero-mockup {
+    display:flex;
+    justify-content:center;
+    margin-top:40px;
+    margin-bottom:8px;
+  }
+  .phone-frame { width:200px; }
+  .phone-screen { height:380px; }
 
   .section { padding:56px 20px; }
   .section-title { font-size:26px; }
   .section-sub { font-size:15px; }
 
-  .features-grid {
-    grid-template-columns:1fr;
-    gap:16px;
-  }
-
-  .roles-grid {
-    grid-template-columns:1fr;
-    gap:16px;
-  }
+  .features-grid { grid-template-columns:1fr; gap:16px; }
+  .roles-grid { grid-template-columns:1fr; gap:16px; }
   .role-card { padding:28px 24px; }
   .role-emoji { font-size:36px; }
   .role-title { font-size:20px; }
 
-  .pricing-grid {
-    grid-template-columns:1fr;
-    gap:16px;
-  }
+  .pricing-grid { grid-template-columns:1fr; gap:16px; }
   .plan-card.popular { transform:scale(1); }
 
   .cta-section h2 { font-size:26px; }
@@ -414,7 +412,6 @@ footer {
     width:100%; max-width:320px;
     text-align:center; justify-content:center;
   }
-
   footer { flex-direction:column; text-align:center; }
 }
 
@@ -428,12 +425,10 @@ footer {
 </head>
 <body>
 
-<!-- NAV — solo logo y botón -->
+<!-- NAV -->
 <nav>
   <div class="nav-logo">📊 Edu<span>Reporte</span></div>
-  <button class="nav-cta" onclick="window.open('https://play.google.com/store','_blank')">
-    Descargar Gratis
-  </button>
+  <button class="nav-cta">Descargar Gratis</button>
 </nav>
 
 <!-- HERO -->
@@ -462,7 +457,8 @@ footer {
         </div>
       </div>
     </div>
-    <!-- Mockup oculto en móvil -->
+
+    <!-- ✅ Mockup visible en PC y móvil -->
     <div class="hero-mockup">
       <div class="phone-frame">
         <div class="phone-screen">
@@ -487,20 +483,26 @@ footer {
               </div>
               <div class="p-row">
                 <div class="p-td l">Razonamiento</div>
-                <div class="p-td g">AD</div><div class="p-td">A</div>
-                <div class="p-td">-</div><div class="p-td">-</div>
+                <div class="p-td g">AD</div>
+                <div class="p-td">A</div>
+                <div class="p-td">-</div>
+                <div class="p-td">-</div>
                 <div class="p-td g">A</div>
               </div>
               <div class="p-row" style="background:#f7fafc">
                 <div class="p-td l">Resolución</div>
-                <div class="p-td g">AD</div><div class="p-td g">AD</div>
-                <div class="p-td">-</div><div class="p-td">-</div>
+                <div class="p-td g">AD</div>
+                <div class="p-td g">AD</div>
+                <div class="p-td">-</div>
+                <div class="p-td">-</div>
                 <div class="p-td g">AD</div>
               </div>
               <div class="p-row">
                 <div class="p-td l">Comunicación</div>
-                <div class="p-td">A</div><div class="p-td">B</div>
-                <div class="p-td">-</div><div class="p-td">-</div>
+                <div class="p-td">A</div>
+                <div class="p-td">B</div>
+                <div class="p-td">-</div>
+                <div class="p-td">-</div>
                 <div class="p-td">A</div>
               </div>
               <div class="p-prom">
@@ -523,8 +525,10 @@ footer {
               </div>
               <div class="p-row">
                 <div class="p-td l">Lectura</div>
-                <div class="p-td g">AD</div><div class="p-td g">A</div>
-                <div class="p-td">-</div><div class="p-td">-</div>
+                <div class="p-td g">AD</div>
+                <div class="p-td g">A</div>
+                <div class="p-td">-</div>
+                <div class="p-td">-</div>
                 <div class="p-td g">AD</div>
               </div>
               <div class="p-prom">
