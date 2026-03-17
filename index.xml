@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EduReporte — Gestión Escolar Perú</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --verde: #2d9b8a;
+    --verde-oscuro: #1a3a35;
+    --verde-claro: #4fd1c5;
+    --verde-bg: #f0fafa;
+    --naranja: #f6ad55;
+    --rojo: #e53e3e;
+    --texto: #1a202c;
+    --gris: #718096;
+    --blanco: #ffffff;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    color: var(--texto);
+    background: var(--blanco);
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    background: rgba(26,58,53,0.97);
+    backdrop-filter: blur(12px);
+    padding: 16px 48px;
+    display: flex; align-items: center;
+    justify-content: space-between;
+  }
+  .nav-logo {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 800; font-size: 22px;
+    color: var(--blanco);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .nav-logo span { color: var(--verde-claro); }
+  .nav-links { display: flex; gap: 32px; }
+  .nav-links a {
+    color: rgba(255,255,255,0.8);
+    text-decoration: none; font-size: 14px;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--verde-claro); }
+  .nav-cta {
+    background: var(--verde);
+    color: white; border: none;
+    padding: 10px 24px; border-radius: 50px;
+    font-size: 14px; font-weight: 600;
+    cursor: pointer; transition: all 0.2s;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+  .nav-cta:hover {
+    background: var(--verde-claro);
+    transform: translateY(-1px);
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    background: linear-gradient(135deg,
+      var(--verde-oscuro) 0%,
+      #1e4a42 40%,
+      #0f2b26 100%);
+    display: flex; align-items: center;
+    padding: 120px 48px 80px;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: -200px; right: -200px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle,
+      rgba(45,155,138,0.3) 0%,
+      transparent 70%);
+    border-radius: 50%;
+  }
+  .hero::after {
+    content: '';
+    position: absolute; bottom: -100px; left: -100px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle,
+      rgba(79,209,197,0.15) 0%,
+      transparent 70%);
+    border-radius: 50%;
+  }
+  .hero-content {
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 80px; align-items: center;
+    position: relative; z-index: 1;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center;
+    gap: 8px; background: rgba(45,155,138,0.2);
+    border: 1px solid rgba(79,209,197,0.3);
+    padding: 6px 16px; border-radius: 50px;
+    font-size: 13px; color: var(--verde-claro);
+    margin-bottom: 24px; font-weight: 500;
+  }
+  .hero h1 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 56px; font-weight: 800;
+    color: white; line-height: 1.1;
+    margin-bottom: 24px;
+  }
+  .hero h1 span { color: var(--verde-claro); }
+  .hero p {
+    font-size: 18px; color: rgba(255,255,255,0.7);
+    line-height: 1.7; margin-bottom: 40px;
+  }
+  .hero-btns {
+    display: flex; gap: 16px; flex-wrap: wrap;
+  }
+  .btn-primary {
+    background: var(--verde);
+    color: white; padding: 16px 32px;
+    border-radius: 50px; border: none;
+    font-size: 16px; font-weight: 700;
+    cursor: pointer; transition: all 0.3s;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    display: flex; align-items: center; gap: 8px;
+    box-shadow: 0 8px 32px rgba(45,155,138,0.4);
+  }
+  .btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 40px rgba(45,155,138,0.5);
+  }
+  .btn-secondary {
+    background: transparent;
+    color: white; padding: 16px 32px;
+    border-radius: 50px;
+    border: 1px solid rgba(255,255,255,0.3);
+    font-size: 16px; font-weight: 600;
+    cursor: pointer; transition: all 0.3s;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+  .btn-secondary:hover {
+    border-color: var(--verde-claro);
+    color: var(--verde-claro);
+  }
+  .hero-stats {
+    display: flex; gap: 32px; margin-top: 48px;
+  }
+  .stat { text-align: left; }
+  .stat-num {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 28px; font-weight: 800;
+    color: var(--verde-claro);
+  }
+  .stat-label {
+    font-size: 13px; color: rgba(255,255,255,0.5);
+  }
+
+  /* MOCKUP */
+  .hero-mockup {
+    display: flex; justify-content: center;
+    align-items: center; position: relative;
+  }
+  .phone-frame {
+    width: 260px;
+    background: #1a1a2e;
+    border-radius: 40px;
+    padding: 12px;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.5),
+      0 0 0 1px rgba(255,255,255,0.1);
+    transform: rotate(-3deg);
+    animation: float 3s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%, 100% { transform: rotate(-3deg) translateY(0); }
+    50% { transform: rotate(-3deg) translateY(-12px); }
+  }
+  .phone-screen {
+    background: var(--verde-oscuro);
+    border-radius: 30px;
+    overflow: hidden;
+    height: 480px;
+  }
+  .phone-header {
+    background: #1a3a35;
+    padding: 20px 16px 12px;
+  }
+  .phone-header-title {
+    color: white; font-size: 13px;
+    font-weight: 700; font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+  .phone-header-sub {
+    color: #b2f5ea; font-size: 10px; margin-top: 2px;
+  }
+  .phone-franja {
+    background: var(--verde);
+    padding: 6px 16px;
+    color: white; font-size: 10px;
+    display: flex; justify-content: space-between;
+  }
+  .phone-body { padding: 12px; }
+  .phone-card {
+    background: white; border-radius: 10px;
+    margin-bottom: 8px; overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+  .phone-card-header {
+    background: #f0fafa;
+    padding: 8px 10px;
+    display: flex; align-items: center; gap: 6px;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  .phone-card-title {
+    color: var(--verde); font-size: 9px;
+    font-weight: 700; letter-spacing: 0.05em;
+  }
+  .phone-table-header {
+    background: var(--verde);
+    padding: 4px 8px;
+    display: grid;
+    grid-template-columns: 2fr 0.5fr 0.5fr 0.5fr 0.5fr 0.6fr;
+    gap: 2px;
+  }
+  .phone-th {
+    color: white; font-size: 7px;
+    font-weight: 700; text-align: center;
+  }
+  .phone-row {
+    padding: 4px 8px;
+    display: grid;
+    grid-template-columns: 2fr 0.5fr 0.5fr 0.5fr 0.5fr 0.6fr;
+    gap: 2px; border-bottom: 1px solid #f0f0f0;
+  }
+  .phone-row:last-child { border-bottom: none; }
+  .phone-td {
+    font-size: 7px; text-align: center;
+    color: #4a5568;
+  }
+  .phone-td.verde { color: var(--verde); font-weight: 700; }
+  .phone-td.label { text-align: left; color: #718096; }
+  .phone-row-prom {
+    padding: 4px 8px;
+    background: #1a6b5e;
+    display: grid;
+    grid-template-columns: 2fr 0.5fr 0.5fr 0.5fr 0.5fr 0.6fr;
+    gap: 2px;
+  }
+  .phone-td-w {
+    font-size: 7px; text-align: center;
+    color: white; font-weight: 700;
+  }
+  .phone-td-w.label { text-align: left; }
+
+  /* FEATURES */
+  .features {
+    padding: 100px 48px;
+    background: var(--verde-bg);
+  }
+  .section-tag {
+    display: inline-block;
+    background: rgba(45,155,138,0.1);
+    color: var(--verde);
+    padding: 6px 16px; border-radius: 50px;
+    font-size: 13px; font-weight: 600;
+    margin-bottom: 16px;
+  }
+  .section-title {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 40px; font-weight: 800;
+    color: var(--verde-oscuro);
+    margin-bottom: 16px;
+    line-height: 1.2;
+  }
+  .section-sub {
+    font-size: 17px; color: var(--gris);
+    max-width: 560px; line-height: 1.7;
+    margin-bottom: 60px;
+  }
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px; max-width: 1100px; margin: 0 auto;
+  }
+  .feature-card {
+    background: white;
+    border-radius: 20px; padding: 32px;
+    border: 1px solid #e2e8f0;
+    transition: all 0.3s;
+    position: relative; overflow: hidden;
+  }
+  .feature-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 3px;
+    background: linear-gradient(90deg,
+      var(--verde), var(--verde-claro));
+    transform: scaleX(0);
+    transition: transform 0.3s;
+  }
+  .feature-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 60px rgba(45,155,138,0.15);
+    border-color: var(--verde);
+  }
+  .feature-card:hover::before { transform: scaleX(1); }
+  .feature-icon {
+    width: 52px; height: 52px;
+    background: var(--verde-bg);
+    border-radius: 14px;
+    display: flex; align-items: center;
+    justify-content: center;
+    font-size: 24px; margin-bottom: 20px;
+  }
+  .feature-title {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 18px; font-weight: 700;
+    color: var(--verde-oscuro);
+    margin-bottom: 10px;
+  }
+  .feature-desc {
+    font-size: 14px; color: var(--gris);
+    line-height: 1.6;
+  }
+
+  /* ROLES */
+  .roles {
+    padding: 100px 48px;
+    background: white;
+  }
+  .roles-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 32px; max-width: 1000px; margin: 0 auto;
+  }
+  .role-card {
+    border-radius: 24px; padding: 40px;
+    position: relative; overflow: hidden;
+  }
+  .role-card.docente {
+    background: linear-gradient(135deg,
+      var(--verde-oscuro), #2a5c52);
+    color: white;
+  }
+  .role-card.padre {
+    background: linear-gradient(135deg,
+      #1a365d, #2c5282);
+    color: white;
+  }
+  .role-emoji { font-size: 48px; margin-bottom: 20px; }
+  .role-title {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 26px; font-weight: 800;
+    margin-bottom: 24px;
+  }
+  .role-list { list-style: none; }
+  .role-list li {
+    padding: 8px 0;
+    display: flex; align-items: flex-start; gap: 10px;
+    font-size: 14px; opacity: 0.9;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .role-list li:last-child { border-bottom: none; }
+  .check { color: var(--verde-claro); font-weight: 700; }
+
+  /* PRICING */
+  .pricing {
+    padding: 100px 48px;
+    background: var(--verde-oscuro);
+    position: relative; overflow: hidden;
+  }
+  .pricing::before {
+    content: '';
+    position: absolute; top: -300px; right: -300px;
+    width: 700px; height: 700px;
+    background: radial-gradient(circle,
+      rgba(45,155,138,0.2) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .pricing .section-title { color: white; }
+  .pricing .section-sub { color: rgba(255,255,255,0.6); }
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px; max-width: 1000px;
+    margin: 0 auto; position: relative; z-index: 1;
+  }
+  .plan-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 24px; padding: 36px;
+    transition: all 0.3s;
+  }
+  .plan-card.popular {
+    background: var(--verde);
+    border-color: var(--verde);
+    transform: scale(1.05);
+    box-shadow: 0 20px 60px rgba(45,155,138,0.4);
+  }
+  .plan-card:hover:not(.popular) {
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(79,209,197,0.3);
+  }
+  .plan-badge {
+    background: var(--naranja);
+    color: white; padding: 4px 12px;
+    border-radius: 50px; font-size: 11px;
+    font-weight: 700; display: inline-block;
+    margin-bottom: 16px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+  .plan-name {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 20px; font-weight: 800;
+    color: white; margin-bottom: 8px;
+  }
+  .plan-price {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 40px; font-weight: 800;
+    color: white; margin-bottom: 4px;
+  }
+  .plan-price span {
+    font-size: 16px; opacity: 0.7; font-weight: 400;
+  }
+  .plan-desc {
+    font-size: 13px; color: rgba(255,255,255,0.6);
+    margin-bottom: 28px; padding-bottom: 28px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .plan-features { list-style: none; }
+  .plan-features li {
+    padding: 8px 0;
+    font-size: 14px; color: rgba(255,255,255,0.85);
+    display: flex; gap: 10px; align-items: flex-start;
+  }
+  .plan-btn {
+    width: 100%; padding: 14px;
+    border-radius: 50px; border: none;
+    font-size: 15px; font-weight: 700;
+    cursor: pointer; margin-top: 28px;
+    transition: all 0.2s;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+  .plan-btn.outline {
+    background: transparent;
+    color: white;
+    border: 1px solid rgba(255,255,255,0.3);
+  }
+  .plan-btn.outline:hover {
+    border-color: var(--verde-claro);
+    color: var(--verde-claro);
+  }
+  .plan-btn.solid {
+    background: white; color: var(--verde-oscuro);
+  }
+  .plan-btn.solid:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  }
+
+  /* CTA */
+  .cta {
+    padding: 100px 48px;
+    background: var(--verde-bg);
+    text-align: center;
+  }
+  .cta-box {
+    max-width: 640px; margin: 0 auto;
+  }
+  .cta h2 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 40px; font-weight: 800;
+    color: var(--verde-oscuro);
+    margin-bottom: 16px; line-height: 1.2;
+  }
+  .cta p {
+    font-size: 17px; color: var(--gris);
+    margin-bottom: 36px; line-height: 1.7;
+  }
+  .cta-btns {
+    display: flex; gap: 16px;
+    justify-content: center; flex-wrap: wrap;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--verde-oscuro);
+    padding: 40px 48px;
+    display: flex; align-items: center;
+    justify-content: space-between;
+  }
+  .footer-logo {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 800; font-size: 18px;
+    color: white;
+  }
+  .footer-logo span { color: var(--verde-claro); }
+  .footer-text {
+    font-size: 13px; color: rgba(255,255,255,0.5);
+  }
+  .footer-flag { font-size: 20px; }
+
+  /* CENTER HELPERS */
+  .text-center { text-align: center; }
+  .max-center {
+    max-width: 1100px; margin: 0 auto;
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    📊 Edu<span>Reporte</span>
+  </div>
+  <div class="nav-links">
+    <a href="#">Funciones</a>
+    <a href="#">Docentes</a>
+    <a href="#">Padres</a>
+    <a href="#">Precios</a>
+  </div>
+  <button class="nav-cta">Descargar Gratis</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div>
+      <div class="hero-badge">🇵🇪 Hecho en Perú para docentes peruanos</div>
+      <h1>Gestión escolar<br><span>simple y moderna</span></h1>
+      <p>Registra notas, controla asistencia y mantén informados a los padres en tiempo real. Todo desde tu celular.</p>
+      <div class="hero-btns">
+        <button class="btn-primary">
+          ▶ Descargar en Play Store
+        </button>
+        <button class="btn-secondary">Ver demo</button>
+      </div>
+      <div class="hero-stats">
+        <div class="stat">
+          <div class="stat-num">30 días</div>
+          <div class="stat-label">Prueba gratis Pro</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">100%</div>
+          <div class="stat-label">Perú 🇵🇪</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">4</div>
+          <div class="stat-label">Niveles educativos</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHONE MOCKUP -->
+    <div class="hero-mockup">
+      <div class="phone-frame">
+        <div class="phone-screen">
+          <div class="phone-header">
+            <div class="phone-header-title">📊 Notas Bimestrales</div>
+            <div class="phone-header-sub">Sección A · Primaria</div>
+          </div>
+          <div class="phone-franja">
+            <span>Primaria</span>
+            <span>B1 · B2 · B3 · B4</span>
+          </div>
+          <div class="phone-body">
+            <div class="phone-card">
+              <div class="phone-card-header">
+                <span>🔢</span>
+                <span class="phone-card-title">MATEMÁTICAS</span>
+              </div>
+              <div class="phone-table-header">
+                <div class="phone-th" style="text-align:left">CRITERIO</div>
+                <div class="phone-th">B1</div>
+                <div class="phone-th">B2</div>
+                <div class="phone-th">B3</div>
+                <div class="phone-th">B4</div>
+                <div class="phone-th">FINAL</div>
+              </div>
+              <div class="phone-row">
+                <div class="phone-td label">Razonamiento</div>
+                <div class="phone-td verde">AD</div>
+                <div class="phone-td">A</div>
+                <div class="phone-td">-</div>
+                <div class="phone-td">-</div>
+                <div class="phone-td verde">A</div>
+              </div>
+              <div class="phone-row" style="background:#f7fafc">
+                <div class="phone-td label">Resolución</div>
+                <div class="phone-td verde">AD</div>
+                <div class="phone-td verde">AD</div>
+                <div class="phone-td">-</div>
+                <div class="phone-td">-</div>
+                <div class="phone-td verde">AD</div>
+              </div>
+              <div class="phone-row">
+                <div class="phone-td label">Comunicación</div>
+                <div class="phone-td">A</div>
+                <div class="phone-td">B</div>
+                <div class="phone-td">-</div>
+                <div class="phone-td">-</div>
+                <div class="phone-td">A</div>
+              </div>
+              <div class="phone-row-prom">
+                <div class="phone-td-w label">CALIF. PROMEDIO ÁREA</div>
+                <div class="phone-td-w"></div>
+                <div class="phone-td-w"></div>
+                <div class="phone-td-w"></div>
+                <div class="phone-td-w"></div>
+                <div class="phone-td-w">AD</div>
+              </div>
+            </div>
+
+            <div class="phone-card">
+              <div class="phone-card-header">
+                <span>📖</span>
+                <span class="phone-card-title">COMUNICACIÓN</span>
+              </div>
+              <div class="phone-table-header">
+                <div class="phone-th" style="text-align:left">CRITERIO</div>
+                <div class="phone-th">B1</div>
+                <div class="phone-th">B2</div>
+                <div class="phone-th">B3</div>
+                <div class="phone-th">B4</div>
+                <div class="phone-th">FINAL</div>
+              </div>
+              <div class="phone-row">
+                <div class="phone-td label">Lectura</div>
+                <div class="phone-td verde">AD</div>
+                <div class="phone-td verde">A</div>
+                <div class="phone-td">-</div>
+                <div class="phone-td">-</div>
+                <div class="phone-td verde">AD</div>
+              </div>
+              <div class="phone-row-prom">
+                <div class="phone-td-w label">CALIF. PROMEDIO ÁREA</div>
+                <div class="phone-td-w"></div>
+                <div class="phone-td-w"></div>
+                <div class="phone-td-w"></div>
+                <div class="phone-td-w"></div>
+                <div class="phone-td-w">A</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features">
+  <div class="max-center text-center">
+    <div class="section-tag">✨ Funcionalidades</div>
+    <h2 class="section-title">Todo lo que necesitas<br>en un solo lugar</h2>
+    <p class="section-sub" style="margin: 0 auto 60px">Diseñado específicamente para el sistema educativo peruano, con soporte para todos los niveles.</p>
+  </div>
+  <div class="features-grid max-center">
+    <div class="feature-card">
+      <div class="feature-icon">📊</div>
+      <div class="feature-title">Notas por Criterios</div>
+      <p class="feature-desc">Registra hasta 4 criterios de evaluación por curso. Sistema numérico (0-20) y literal (AD/A/B/C) según el nivel educativo.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📅</div>
+      <div class="feature-title">Control de Asistencia</div>
+      <p class="feature-desc">Marca asistencia, tardanzas y faltas con un toque. Exporta reportes PDF y notifica automáticamente a los padres.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🔔</div>
+      <div class="feature-title">Notificaciones FCM</div>
+      <p class="feature-desc">Los padres reciben alertas instantáneas en su celular cuando su hijo falta o llega tarde. Sin demoras.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📄</div>
+      <div class="feature-title">PDF Formato MINEDU</div>
+      <p class="feature-desc">Genera reportes en formato oficial MINEDU. Landscape A4 con criterios, promedios bimestrales y calificación final.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📚</div>
+      <div class="feature-title">Notas Semanales</div>
+      <p class="feature-desc">Registra notas y temas del día por cada curso. Los padres ven el progreso semanal de sus hijos en detalle.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🏫</div>
+      <div class="feature-title">Multi-sección</div>
+      <p class="feature-desc">Administra múltiples aulas y secciones. Compatible con Inicial, Primaria, Secundaria y Universidad.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ROLES -->
+<section class="roles">
+  <div class="max-center text-center">
+    <div class="section-tag">👥 Dos roles</div>
+    <h2 class="section-title">Para docentes y padres</h2>
+    <p class="section-sub" style="margin: 0 auto 60px">Cada usuario tiene su propia experiencia diseñada para sus necesidades.</p>
+  </div>
+  <div class="roles-grid max-center">
+    <div class="role-card docente">
+      <div class="role-emoji">🎓</div>
+      <div class="role-title">Soy Docente</div>
+      <ul class="role-list">
+        <li><span class="check">✓</span> Registra notas bimestrales con criterios</li>
+        <li><span class="check">✓</span> Toma asistencia diaria</li>
+        <li><span class="check">✓</span> Envía avisos a todos los padres</li>
+        <li><span class="check">✓</span> Genera reportes PDF MINEDU</li>
+        <li><span class="check">✓</span> Registra temas y notas semanales</li>
+        <li><span class="check">✓</span> Administra múltiples secciones</li>
+      </ul>
+    </div>
+    <div class="role-card padre">
+      <div class="role-emoji">👨‍👩‍👧</div>
+      <div class="role-title">Soy Padre / Madre</div>
+      <ul class="role-list">
+        <li><span class="check">✓</span> Ve las notas de tu hijo en tiempo real</li>
+        <li><span class="check">✓</span> Recibe alertas de asistencia al instante</li>
+        <li><span class="check">✓</span> Revisa avisos del docente</li>
+        <li><span class="check">✓</span> Consulta notas semanales y temas</li>
+        <li><span class="check">✓</span> Accede con código simple</li>
+        <li><span class="check">✓</span> Varios hijos en una sola app</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing">
+  <div class="max-center text-center">
+    <div class="section-tag" style="background:rgba(79,209,197,0.15); color: #4fd1c5">💎 Planes</div>
+    <h2 class="section-title">Elige tu plan</h2>
+    <p class="section-sub" style="margin: 0 auto 60px; color: rgba(255,255,255,0.6)">Empieza gratis 30 días con todas las funciones Pro.</p>
+  </div>
+  <div class="pricing-grid max-center">
+
+    <div class="plan-card">
+      <div class="plan-name">Gratuito</div>
+      <div class="plan-price">S/ 0<span>/mes</span></div>
+      <p class="plan-desc">Para probar la app</p>
+      <ul class="plan-features">
+        <li><span class="check">✓</span> 1 aula</li>
+        <li><span class="check">✓</span> Hasta 30 alumnos</li>
+        <li><span class="check">✓</span> Notas y asistencia</li>
+        <li style="opacity:0.4">✗ Notificaciones FCM</li>
+        <li style="opacity:0.4">✗ PDF ilimitado</li>
+      </ul>
+      <button class="plan-btn outline">Empezar gratis</button>
+    </div>
+
+    <div class="plan-card popular">
+      <div class="plan-badge">⭐ MÁS POPULAR</div>
+      <div class="plan-name">Pro</div>
+      <div class="plan-price">S/ 9.90<span>/mes</span></div>
+      <p class="plan-desc">Para docentes individuales</p>
+      <ul class="plan-features">
+        <li><span class="check">✓</span> Aulas ilimitadas</li>
+        <li><span class="check">✓</span> Alumnos ilimitados</li>
+        <li><span class="check">✓</span> Notificaciones FCM</li>
+        <li><span class="check">✓</span> PDF formato MINEDU</li>
+        <li><span class="check">✓</span> Notas semanales</li>
+        <li><span class="check">✓</span> 30 días gratis</li>
+      </ul>
+      <button class="plan-btn solid">Empezar Pro gratis</button>
+    </div>
+
+    <div class="plan-card">
+      <div class="plan-name">Institución</div>
+      <div class="plan-price">S/ 79<span>/mes</span></div>
+      <p class="plan-desc">Para colegios completos</p>
+      <ul class="plan-features">
+        <li><span class="check">✓</span> Todo lo del plan Pro</li>
+        <li><span class="check">✓</span> Docentes ilimitados</li>
+        <li><span class="check">✓</span> Panel de administrador</li>
+        <li><span class="check">✓</span> Soporte prioritario</li>
+        <li><span class="check">✓</span> Personalización</li>
+      </ul>
+      <button class="plan-btn outline">Contactar</button>
+    </div>
+
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="cta-box">
+    <h2>¿Listo para modernizar tu aula?</h2>
+    <p>Únete a los docentes peruanos que ya usan EduReporte para gestionar sus notas y mantener a los padres informados.</p>
+    <div class="cta-btns">
+      <button class="btn-primary">▶ Descargar en Play Store</button>
+      <button style="background:transparent; border:2px solid var(--verde); color:var(--verde); padding:16px 32px; border-radius:50px; font-size:16px; font-weight:700; cursor:pointer; font-family:'Plus Jakarta Sans',sans-serif; transition:all 0.2s">
+        💬 WhatsApp
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">📊 Edu<span>Reporte</span></div>
+  <div class="footer-text">© 2026 EduReporte · Todos los derechos reservados · Perú</div>
+  <div class="footer-flag">🇵🇪</div>
+</footer>
+
+</body>
+</html>
